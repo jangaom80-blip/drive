@@ -7,7 +7,7 @@
 
   <!-- 메타태그 (카카오톡 공유 카드) -->
   <meta property="og:title" content="전국 산악회 장거리 카풀 & 차량비 정산기">
-  <meta property="og:description" content="거리·톨비만 넣으면 산악회 표준 규정 1인당 정산금과 단톡방 공지 문구 자동 완성!">
+  <meta property="og:description" content="운전자 집 기준 거리 & 경유지 중간 픽업까지 완벽 지원하는 산악회 표준 정산기!">
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -19,6 +19,7 @@
       --text-white: #f8fafc;
       --text-sub: #94a3b8;
       --primary-green: #10b981;
+      --primary-blue: #3b82f6;
       --accent-gold: #f59e0b;
     }
 
@@ -41,6 +42,7 @@
     .form-group { margin-bottom: 14px; }
     .form-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; }
     .form-label span { font-size: 11px; color: var(--primary-green); font-weight: normal; }
+    .form-guide-text { font-size: 11.5px; color: #94a3b8; margin-top: 5px; line-height: 1.4; }
     .form-input {
       width: 100%;
       background: #0f1522;
@@ -56,7 +58,7 @@
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    /* 차종별 연비 간편 선택 버튼 */
+    /* 차종별 연비 버튼 */
     .car-preset-group {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -81,6 +83,40 @@
       color: #34d399;
       font-weight: 800;
     }
+
+    /* 중간 경유지 픽업 체크 영역 */
+    .waypoint-box {
+      background: #0f1522;
+      border: 1px solid #283548;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .waypoint-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .waypoint-title { font-size: 13px; font-weight: 800; color: #60a5fa; display: flex; align-items: center; gap: 6px; }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #334155; transition: .3s; border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background-color: white; transition: .3s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: var(--primary-blue); }
+    input:checked + .slider:before { transform: translateX(20px); }
+    #waypointInputs { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #232c3f; }
 
     .btn-calc {
       width: 100%;
@@ -109,6 +145,7 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* 일반 정산 단일 배너 */
     .per-person-banner {
       background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
       border: 1px solid #059669;
@@ -119,6 +156,32 @@
     }
     .per-person-title { font-size: 13px; color: #6ee7b7; font-weight: 700; margin-bottom: 4px; }
     .per-person-val { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
+
+    /* 경유지 분리 2열 배너 */
+    .split-person-banner {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .split-box {
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .split-box.full {
+      background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+      border: 1px solid #059669;
+    }
+    .split-box.way {
+      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+      border: 1px solid #3b82f6;
+    }
+    .split-title { font-size: 11.5px; font-weight: 800; margin-bottom: 4px; }
+    .split-box.full .split-title { color: #6ee7b7; }
+    .split-box.way .split-title { color: #93c5fd; }
+    .split-val { font-size: 22px; font-weight: 900; color: #fff; }
+    .split-sub { font-size: 11px; color: var(--text-sub); margin-top: 3px; }
 
     .detail-breakdown {
       display: grid;
@@ -213,22 +276,50 @@
     <header>
       <div class="badge-top">HIKING CARPOOL STATS</div>
       <h1>산악회 장거리 카풀 & 차량비 정산기</h1>
-      <p class="sub-title">전국 산악회 표준 차량비 규정 (유류비·톨비 1/N + 운전자 지원금)</p>
+      <p class="sub-title">운전자 집 기준 왕복 거리 · 중간 경유지 픽업 비례 정산 지원</p>
     </header>
 
     <div class="input-card">
       <div class="form-group">
-        <label class="form-label" for="dist">왕복 총 주행 거리 (km)</label>
+        <label class="form-label" for="dist">왕복 총 주행 거리 (km) <span>*운전자 집 기준</span></label>
         <input type="number" id="dist" class="form-input" placeholder="직접 입력 (예: 420)" value="420">
+        <p class="form-guide-text">💡 <strong>거리 기준:</strong> 운전자가 집에서 출발해 탑승자 픽업 후 최종 귀가할 때까지의 왕복 총 주행거리 기준입니다.</p>
       </div>
 
-      <!-- 휘발유 가격: 기본값 1,810원 세팅 & 자유롭게 직접 입력 가능 -->
+      <!-- 중간 경유지 픽업 옵션 토글 -->
+      <div class="waypoint-box">
+        <div class="waypoint-header" onclick="toggleWaypointSwitch()">
+          <span class="waypoint-title">📍 중간 경유지(환승/IC) 픽업 인원 있음</span>
+          <label class="switch" onclick="event.stopPropagation()">
+            <input type="checkbox" id="waypointCheck" onchange="handleWaypointToggle()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div id="waypointInputs">
+          <div class="grid-2">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="wayCount">경유지 승차 인원 (명)</label>
+              <input type="number" id="wayCount" class="form-input" placeholder="예: 1" value="1">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="wayDist">경유지 왕복 거리 (km)</label>
+              <input type="number" id="wayDist" class="form-input" placeholder="예: 240" value="240">
+            </div>
+          </div>
+          <p class="form-guide-text" style="color: #60a5fa; margin-top: 8px;">
+            ※ 경유지 탑승자는 이동 거리 비율로 유류비를 분담하고, 해당 구간에 맞는 운전자 수고비가 적용됩니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 휘발유 가격 -->
       <div class="form-group">
         <label class="form-label" for="fuelPrice">휘발유 가격 (원/L) <span>*직접 수정 가능</span></label>
         <input type="number" id="fuelPrice" class="form-input" placeholder="주유 가격 입력 (예: 1810)" value="1810">
       </div>
 
-      <!-- 차종별 연비: 프리셋 버튼 또는 직접 숫자 입력 지원 -->
+      <!-- 차종별 연비 -->
       <div class="form-group" style="margin-bottom: 6px;">
         <label class="form-label">차량 기준 연비 (km/L) <span>*직접 수정 가능</span></label>
         <div class="car-preset-group">
@@ -274,26 +365,33 @@
     <!-- 계산 결과창 -->
     <div id="resultArea">
       <div class="result-card">
-        <div class="per-person-banner">
+        <!-- 1. 단일 정산 결과 배너 (경유지 없을 때) -->
+        <div class="per-person-banner" id="singleBanner">
           <div class="per-person-title">동승자 1인당 최종 입금액 (기본 차량비 + 수고비)</div>
           <div class="per-person-val" id="finalPerPerson">0원</div>
         </div>
 
+        <!-- 2. 분리 정산 결과 배너 (경유지 있을 때) -->
+        <div class="split-person-banner" id="splitBanner">
+          <div class="split-box full">
+            <div class="split-title">🚗 출발지 탑승자</div>
+            <div class="split-val" id="finalFullPerson">0원</div>
+            <div class="split-sub" id="subFullPerson">기본 0 + 수고 0</div>
+          </div>
+          <div class="split-box way">
+            <div class="split-title">📍 경유지 탑승자</div>
+            <div class="split-val" id="finalWayPerson">0원</div>
+            <div class="split-sub" id="subWayPerson">기본 0 + 수고 0</div>
+          </div>
+        </div>
+
         <div class="detail-breakdown">
-          <div class="breakdown-box">
-            <div class="breakdown-title">기본 차량비 (1/N)</div>
-            <div class="breakdown-val" id="basePerPerson">0원</div>
-          </div>
-          <div class="breakdown-box">
-            <div class="breakdown-title">운전자 지원금 (거리별)</div>
-            <div class="breakdown-val" id="driverFeeText">0원</div>
-          </div>
           <div class="breakdown-box">
             <div class="breakdown-title">차량 1대당 총 경비</div>
             <div class="breakdown-val" id="perCarTotal">0원</div>
           </div>
           <div class="breakdown-box">
-            <div class="breakdown-title">정산 인원 구성</div>
+            <div class="breakdown-title">탑승 인원 구성</div>
             <div class="breakdown-val" id="passengerInfoText">동승자 0명</div>
           </div>
         </div>
@@ -305,7 +403,7 @@
           <span>💬 단톡방 공지 문구 원터치 복사하기</span>
         </button>
 
-        <!-- 쿠팡 파트너스 실제 등록 링크 5종 -->
+        <!-- 쿠팡 파트너스 추천 5종 -->
         <div class="product-section">
           <div class="product-section-title">🏔️ 이번 산행 추천 필수 보급 & 장비</div>
           <p class="product-section-sub">안전하고 지치지 않는 산행을 위한 에너지 행동식 및 관절 보호 장비</p>
@@ -353,6 +451,17 @@
   <script>
     let reportData = {};
 
+    function toggleWaypointSwitch() {
+      const chk = document.getElementById('waypointCheck');
+      chk.checked = !chk.checked;
+      handleWaypointToggle();
+    }
+
+    function handleWaypointToggle() {
+      const isChecked = document.getElementById('waypointCheck').checked;
+      document.getElementById('waypointInputs').style.display = isChecked ? 'block' : 'none';
+    }
+
     function selectCarType(type, eff) {
       document.getElementById('fuelEff').value = eff;
       document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
@@ -390,74 +499,137 @@
       const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 1810;
       const fuelEff = parseFloat(document.getElementById('fuelEff').value) || 12.5;
 
-      if (dist <= 0) return alert('주행 거리를 올바르게 입력해주세요!');
-      if (peopleCount <= carCount) return alert('총 인원은 운전자(차량 수)보다 많아야 동승자 정산이 가능합니다.');
+      const hasWaypoint = document.getElementById('waypointCheck').checked;
+      let wayCount = 0;
+      let wayDist = 0;
 
-      // 1. 차량 1대당 유류비 & 총비용 계산 (1,000원 단위 반올림 규정)
+      if (hasWaypoint) {
+        wayCount = parseInt(document.getElementById('wayCount').value) || 0;
+        wayDist = parseFloat(document.getElementById('wayDist').value) || 0;
+        if (wayDist <= 0 || wayDist >= dist) {
+          return alert('경유지 거리는 0보다 크고 전체 주행 거리보다 작아야 합니다.');
+        }
+      }
+
+      if (dist <= 0) return alert('주행 거리를 올바르게 입력해주세요!');
+      const totalPassengers = peopleCount - carCount;
+      if (totalPassengers <= 0) return alert('총 인원은 운전자(차량 수)보다 많아야 동승자 정산이 가능합니다.');
+
+      const fullPassengers = totalPassengers - wayCount;
+      if (fullPassengers < 0) return alert('경유지 탑승자 수가 전체 동승자 수보다 많을 수 없습니다.');
+
+      // 1. 차량 1대당 유류비 & 총비용 (1,000원 반올림 규정)
       const rawFuelCost = (dist / fuelEff) * fuelPrice;
       const rawCarTotal = rawFuelCost + toll + parking;
       const carTotalRounded = Math.round(rawCarTotal / 1000) * 1000;
-
-      // 2. 전체 차량 총액
       const totalExpenseAllCars = carTotalRounded * carCount;
 
-      // 3. 운전자 제외 동승자 인원 수
-      const passengerCount = peopleCount - carCount;
+      let baseFull = 0;
+      let baseWay = 0;
+      let driverFeeFull = getDriverCompensation(dist);
+      let driverFeeWay = getDriverCompensation(wayDist);
+      let finalFull = 0;
+      let finalWay = 0;
 
-      // 4. 동승자 1인당 기본 차량비 분담금 (1,000원 단위 반올림)
-      const basePerPassenger = Math.round((totalExpenseAllCars / passengerCount) / 1000) * 1000;
+      if (!hasWaypoint || wayCount === 0) {
+        // 단일 정산 (모두 풀코스)
+        baseFull = Math.round((totalExpenseAllCars / totalPassengers) / 1000) * 1000;
+        finalFull = baseFull + driverFeeFull;
 
-      // 5. 거리별 운전자 수고비 (개인 분담금 추가 지급)
-      const driverFee = getDriverCompensation(dist);
+        document.getElementById('singleBanner').style.display = 'block';
+        document.getElementById('splitBanner').style.display = 'none';
+        document.getElementById('finalPerPerson').innerText = finalFull.toLocaleString() + '원';
+        document.getElementById('passengerInfoText').innerText = `운전자 ${carCount}명 / 동승자 ${totalPassengers}명`;
 
-      // 6. 최종 1인당 총 송금액
-      const finalAmount = basePerPassenger + driverFee;
+        document.getElementById('ruleExplain').innerHTML = `
+          • <strong>주행 거리:</strong> 운전자 집(출발지) 기준 왕복 ${dist}km<br>
+          • <strong>차량 1대당 실경비:</strong> ${carTotalRounded.toLocaleString()}원 (유가 ${fuelPrice.toLocaleString()}원, 연비 ${fuelEff}km/L)<br>
+          • <strong>기본 1/N 분담:</strong> 차량 ${carCount}대 총액 ÷ 동승자 ${totalPassengers}명 = <strong>${baseFull.toLocaleString()}원</strong><br>
+          • <strong>운전자 수고·세차비:</strong> ${dist}km 표준 규정 적용 ➔ <strong>+${driverFeeFull.toLocaleString()}원</strong>
+        `;
+      } else {
+        // 경유지 분리 정산 (거리 비례 분담)
+        const totalPersonKm = (fullPassengers * dist) + (wayCount * wayDist);
+        const costPerKm = totalExpenseAllCars / totalPersonKm;
+
+        baseFull = Math.round((costPerKm * dist) / 1000) * 1000;
+        baseWay = Math.round((costPerKm * wayDist) / 1000) * 1000;
+
+        finalFull = baseFull + driverFeeFull;
+        finalWay = baseWay + driverFeeWay;
+
+        document.getElementById('singleBanner').style.display = 'none';
+        document.getElementById('splitBanner').style.display = 'grid';
+
+        document.getElementById('finalFullPerson').innerText = finalFull.toLocaleString() + '원';
+        document.getElementById('subFullPerson').innerText = `기본 ${baseFull.toLocaleString()} + 수고 ${driverFeeFull.toLocaleString()}`;
+
+        document.getElementById('finalWayPerson').innerText = finalWay.toLocaleString() + '원';
+        document.getElementById('subWayPerson').innerText = `기본 ${baseWay.toLocaleString()} + 수고 ${driverFeeWay.toLocaleString()}`;
+
+        document.getElementById('passengerInfoText').innerText = `출발지 ${fullPassengers}명 / 경유지 ${wayCount}명 / 운전자 ${carCount}명`;
+
+        document.getElementById('ruleExplain').innerHTML = `
+          • <strong>거리 구성:</strong> 출발지 왕복 ${dist}km / 경유지 픽업 ${wayDist}km<br>
+          • <strong>출발지 탑승자:</strong> 기본비 ${baseFull.toLocaleString()}원 + 수고비 ${driverFeeFull.toLocaleString()}원<br>
+          • <strong>경유지 탑승자:</strong> 거리 비례 기본비 ${baseWay.toLocaleString()}원 + 구간 수고비 ${driverFeeWay.toLocaleString()}원
+        `;
+      }
+
+      document.getElementById('perCarTotal').innerText = carTotalRounded.toLocaleString() + '원';
 
       reportData = {
+        hasWaypoint: hasWaypoint && wayCount > 0,
         dist: dist,
+        wayDist: wayDist,
         carCount: carCount,
         peopleCount: peopleCount,
-        passengerCount: passengerCount,
-        toll: toll,
-        parking: parking,
+        totalPassengers: totalPassengers,
+        fullPassengers: fullPassengers,
+        wayCount: wayCount,
         fuelPrice: fuelPrice,
-        fuelEff: fuelEff,
         carTotalRounded: carTotalRounded,
-        basePerPassenger: basePerPassenger,
-        driverFee: driverFee,
-        finalAmount: finalAmount,
+        baseFull: baseFull,
+        baseWay: baseWay,
+        driverFeeFull: driverFeeFull,
+        driverFeeWay: driverFeeWay,
+        finalFull: finalFull,
+        finalWay: finalWay,
         bank: document.getElementById('bank').value.trim()
       };
-
-      // 화면 반영
-      document.getElementById('finalPerPerson').innerText = finalAmount.toLocaleString() + '원';
-      document.getElementById('basePerPerson').innerText = basePerPassenger.toLocaleString() + '원';
-      document.getElementById('driverFeeText').innerText = driverFee.toLocaleString() + '원';
-      document.getElementById('perCarTotal').innerText = carTotalRounded.toLocaleString() + '원';
-      document.getElementById('passengerInfoText').innerText = `운전자 ${carCount}명 / 동승자 ${passengerCount}명`;
-
-      document.getElementById('ruleExplain').innerHTML = `
-        • <strong>차량 1대당 실경비:</strong> ${carTotalRounded.toLocaleString()}원 (유류비 + 톨비 + 주차비 반올림)<br>
-        • <strong>기본 1/N 분담:</strong> 차량 ${carCount}대 총액 ÷ 동승자 ${passengerCount}명 = <strong>${basePerPassenger.toLocaleString()}원</strong><br>
-        • <strong>운전자 수고·세차비:</strong> ${dist}km 표준 규정 적용 ➔ <strong>+${driverFee.toLocaleString()}원</strong>
-      `;
 
       document.getElementById('resultArea').style.display = 'block';
       document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyKakaoFormat() {
-      if (!reportData.finalAmount) return;
+      if (!reportData.finalFull) return;
 
       const d = reportData;
       let msg = `[🏔️ 산행 카풀 차량비 정산 안내]\n\n`;
-      msg += `• 왕복 주행거리: ${d.dist}km\n`;
-      msg += `• 운행 구성: 차량 ${d.carCount}대 / 총 ${d.peopleCount}명 (동승자 ${d.passengerCount}명)\n`;
-      msg += `• 차량 1대당 경비: ${d.carTotalRounded.toLocaleString()}원 (유가 ${d.fuelPrice.toLocaleString()}원 기준)\n`;
-      msg += `---------------------------\n`;
-      msg += `1️⃣ 기본 차량비 분담금: ${d.basePerPassenger.toLocaleString()}원\n`;
-      msg += `2️⃣ 운전자 수고·세차 지원: ${d.driverFee.toLocaleString()}원\n`;
-      msg += `👉 동승자 1인당 입금액: ${d.finalAmount.toLocaleString()}원\n`;
+
+      if (!d.hasWaypoint) {
+        msg += `• 왕복 주행거리: ${d.dist}km (운전자 집 기준)\n`;
+        msg += `• 운행 구성: 차량 ${d.carCount}대 / 총 ${d.peopleCount}명 (동승자 ${d.totalPassengers}명)\n`;
+        msg += `• 차량 1대당 경비: ${d.carTotalRounded.toLocaleString()}원 (유가 ${d.fuelPrice.toLocaleString()}원 기준)\n`;
+        msg += `---------------------------\n`;
+        msg += `1️⃣ 기본 차량비 분담금: ${d.baseFull.toLocaleString()}원\n`;
+        msg += `2️⃣ 운전자 수고·세차 지원: ${d.driverFeeFull.toLocaleString()}원\n`;
+        msg += `👉 동승자 1인당 입금액: ${d.finalFull.toLocaleString()}원\n`;
+      } else {
+        msg += `• 주행 거리: 출발지 ${d.dist}km / 경유지 ${d.wayDist}km\n`;
+        msg += `• 운행 구성: 차량 ${d.carCount}대 / 탑승 총 ${d.peopleCount}명\n`;
+        msg += `  (출발지 ${d.fullPassengers}명, 경유지 ${d.wayCount}명, 운전자 ${d.carCount}명)\n`;
+        msg += `• 차량 1대당 경비: ${d.carTotalRounded.toLocaleString()}원\n`;
+        msg += `---------------------------\n`;
+        msg += `🚗 [출발지 탑승자 (풀코스)]\n`;
+        msg += `• 1인당 입금액: ${d.finalFull.toLocaleString()}원\n`;
+        msg += `  (기본 ${d.baseFull.toLocaleString()}원 + 수고비 ${d.driverFeeFull.toLocaleString()}원)\n\n`;
+        msg += `📍 [중간 경유지 탑승자 (${d.wayDist}km)]\n`;
+        msg += `• 1인당 입금액: ${d.finalWay.toLocaleString()}원\n`;
+        msg += `  (비례 기본 ${d.baseWay.toLocaleString()}원 + 수고비 ${d.driverFeeWay.toLocaleString()}원)\n`;
+      }
+
       msg += `---------------------------\n`;
 
       if (d.bank) {
