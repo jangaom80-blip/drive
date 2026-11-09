@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>장거리 드라이브 주유비 & 톨비 n빵 계산기</title>
+  <title>산악회 장거리 카풀 & 차량비 정산기</title>
 
-  <!-- 메타태그 (카톡 공유 카드) -->
-  <meta property="og:title" content="장거리 드라이브 주유비 & 톨비 n빵 계산기">
-  <meta property="og:description" content="거리, 실연비, 톨비, 인원만 넣으면 1인당 정산 금액과 카톡 정산 문구 자동 완성!">
+  <!-- 메타태그 (카카오톡 공유 카드) -->
+  <meta property="og:title" content="산악회 장거리 카풀 & 차량비 정산기">
+  <meta property="og:description" content="거리·톨비만 넣으면 산악회 공식 규정에 맞춘 1인당 정산금과 카톡 정산 문구 자동 완성!">
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -18,8 +18,8 @@
       --card-border: #242e42;
       --text-white: #f8fafc;
       --text-sub: #94a3b8;
-      --primary-blue: #3b82f6;
       --primary-green: #10b981;
+      --primary-blue: #3b82f6;
       --accent-gold: #f59e0b;
     }
 
@@ -28,7 +28,7 @@
     .container { max-width: 480px; margin: 0 auto; }
 
     header { text-align: center; margin-bottom: 22px; }
-    .badge-top { display: inline-block; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    .badge-top { display: inline-block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
     h1 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 5px; }
     .sub-title { font-size: 12.5px; color: var(--text-sub); }
 
@@ -41,6 +41,7 @@
     }
     .form-group { margin-bottom: 14px; }
     .form-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; }
+    .form-label span { font-size: 11px; color: var(--primary-green); font-weight: normal; }
     .form-input {
       width: 100%;
       background: #0f1522;
@@ -52,46 +53,22 @@
       font-weight: 700;
       outline: none;
     }
-    .form-input:focus { border-color: var(--primary-blue); }
+    .form-input:focus { border-color: var(--primary-green); }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    /* 토글 탭 */
-    .toggle-group {
-      display: flex;
-      background: #0f1522;
-      padding: 4px;
-      border-radius: 10px;
-      border: 1px solid #232c3f;
-      margin-bottom: 14px;
-    }
-    .toggle-btn {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      background: none;
-      color: var(--text-sub);
-      font-size: 12.5px;
-      font-weight: 800;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .toggle-btn.active {
-      background: var(--primary-blue);
-      color: #fff;
-    }
-
     .btn-calc {
       width: 100%;
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #fff;
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 900;
       padding: 15px;
       border-radius: 12px;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+      margin-top: 6px;
     }
     .btn-calc:active { transform: scale(0.98); }
 
@@ -107,15 +84,16 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    .result-total-banner {
-      background: #0f1522;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
+    .per-person-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+      border: 1px solid #059669;
+      border-radius: 14px;
+      padding: 18px 14px;
       text-align: center;
+      margin-bottom: 16px;
     }
-    .total-label { font-size: 12.5px; color: var(--text-sub); margin-bottom: 4px; }
-    .total-amount { font-size: 28px; font-weight: 900; color: var(--accent-gold); }
+    .per-person-title { font-size: 13px; color: #6ee7b7; font-weight: 700; margin-bottom: 4px; }
+    .per-person-val { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
 
     .detail-breakdown {
       display: grid;
@@ -127,21 +105,21 @@
       background: #0f1522;
       border: 1px solid #232c3f;
       border-radius: 10px;
-      padding: 10px 12px;
+      padding: 11px 12px;
     }
-    .breakdown-title { font-size: 11px; color: var(--text-sub); margin-bottom: 2px; }
+    .breakdown-title { font-size: 11px; color: var(--text-sub); margin-bottom: 3px; }
     .breakdown-val { font-size: 14.5px; font-weight: 800; color: #fff; }
 
-    .per-person-banner {
-      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
-      border: 1px solid #3b82f6;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
+    .rule-summary-box {
+      background: #0f1522;
+      border-left: 3px solid var(--primary-green);
+      padding: 12px 14px;
+      border-radius: 4px 10px 10px 4px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #cbd5e1;
       margin-bottom: 16px;
     }
-    .per-person-title { font-size: 13px; color: #93c5fd; font-weight: 700; margin-bottom: 4px; }
-    .per-person-val { font-size: 26px; font-weight: 900; color: #fff; }
 
     .btn-kakao-copy {
       width: 100%;
@@ -157,21 +135,22 @@
       justify-content: center;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
+    .btn-kakao-copy:active { opacity: 0.9; }
 
-    /* 쿠팡 파트너스 영역 */
+    /* 쿠팡 파트너스 등산 보급/장비 영역 */
     .product-section {
       background: #101625;
       border: 1px solid #2d3b55;
       border-radius: 14px;
-      padding: 15px;
+      padding: 16px;
       margin-top: 10px;
     }
-    .product-section-title { font-size: 13px; font-weight: 900; color: #fff; margin-bottom: 4px; }
-    .product-section-sub { font-size: 11.5px; color: var(--text-sub); margin-bottom: 12px; }
+    .product-section-title { font-size: 13.5px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+    .product-section-sub { font-size: 11.5px; color: var(--text-sub); margin-bottom: 14px; line-height: 1.4; }
     
-    .product-list { display: flex; flex-direction: column; gap: 8px; }
+    .product-list { display: flex; flex-direction: column; gap: 9px; }
     .btn-product {
       display: flex;
       justify-content: space-between;
@@ -181,14 +160,14 @@
       border-radius: 10px;
       padding: 12px 14px;
       text-decoration: none;
-      color: #cbd5e1;
+      color: #e2e8f0;
       font-size: 12.5px;
       font-weight: 700;
     }
     .btn-product:active { background: #1e293b; }
     .btn-product span:last-child {
-      background: rgba(59, 130, 246, 0.2);
-      color: #60a5fa;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
       font-size: 11px;
       font-weight: 800;
       padding: 3px 8px;
@@ -207,101 +186,127 @@
 <body>
   <div class="container">
     <header>
-      <div class="badge-top">DRIVE STATS & SETTLE</div>
-      <h1>장거리 드라이브 정산기</h1>
-      <p class="sub-title">주유비 · 톨비 깔끔한 1/N 계산 & 단톡방 정산표 생성</p>
+      <div class="badge-top">HIKING CARPOOL STATS</div>
+      <h1>산악회 장거리 카풀 정산기</h1>
+      <p class="sub-title">평정산친구 & 산악회 공식 차량비 규정 자동 계산 도구</p>
     </header>
 
     <div class="input-card">
-      <div class="toggle-group">
-        <button type="button" class="toggle-btn active" id="btnRound" onclick="setTripType('round')">왕복 주행</button>
-        <button type="button" class="toggle-btn" id="btnOneWay" onclick="setTripType('oneway')">편도 주행</button>
+      <div class="form-group">
+        <label class="form-label" for="dist">왕복 총 주행 거리 (km)</label>
+        <input type="number" id="dist" class="form-input" placeholder="예: 480" value="480">
       </div>
 
       <div class="grid-2">
         <div class="form-group">
-          <label class="form-label" for="distance">주행 거리 (km)</label>
-          <input type="number" id="distance" class="form-input" placeholder="예: 250" value="200">
+          <label class="form-label" for="carCount">운행 차량 수 (대)</label>
+          <input type="number" id="carCount" class="form-input" placeholder="예: 3" value="3">
         </div>
         <div class="form-group">
-          <label class="form-label" for="fuelEff">차량 실연비 (km/L)</label>
-          <input type="number" step="0.1" id="fuelEff" class="form-input" placeholder="예: 11.5" value="12.0">
+          <label class="form-label" for="peopleCount">총 탑승 인원 (명) <span>*운전자 포함</span></label>
+          <input type="number" id="peopleCount" class="form-input" placeholder="예: 13" value="13">
         </div>
       </div>
 
       <div class="grid-2">
         <div class="form-group">
-          <label class="form-label" for="fuelPrice">리터당 유가 (원)</label>
-          <input type="number" id="fuelPrice" class="form-input" placeholder="예: 1650" value="1650">
+          <label class="form-label" for="toll">차량 1대당 톨비 (원)</label>
+          <input type="number" id="toll" class="form-input" placeholder="예: 15000" value="15000">
         </div>
         <div class="form-group">
-          <label class="form-label" for="tollFee">고속도로 톨비 (원)</label>
-          <input type="number" id="tollFee" class="form-input" placeholder="예: 12000" value="12000">
+          <label class="form-label" for="parking">차량 1대당 주차비 (원)</label>
+          <input type="number" id="parking" class="form-input" placeholder="예: 6000" value="6000">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label" for="fuelPrice">휘발유가 (원/L) <span>*오피넷</span></label>
+          <input type="number" id="fuelPrice" class="form-input" value="1650">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fuelEff">규정 공통 연비 (km/L)</label>
+          <input type="number" id="fuelEff" class="form-input" value="14" readonly style="color: #94a3b8; background: #0b0f19;">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="passengers">탑승 인원 (운전자 포함)</label>
-        <input type="number" id="passengers" class="form-input" placeholder="예: 4" value="4">
+        <label class="form-label" for="bank">입금 계좌 정보 (선택 입력)</label>
+        <input type="text" id="bank" class="form-input" placeholder="예: 카카오뱅크 3333-xx-xxxx (홍길동)">
       </div>
 
-      <label class="form-label">운전자 배려 옵션</label>
-      <div class="toggle-group">
-        <button type="button" class="toggle-btn active" id="modeDriverFree" onclick="setDriverMode('free')">운전자 면제 (동승자만 n빵)</button>
-        <button type="button" class="toggle-btn" id="modeEqual" onclick="setDriverMode('equal')">전원 균등 분담 (운전자 포함)</button>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="bankInfo">입금받을 계좌 (선택 입력)</label>
-        <input type="text" id="bankInfo" class="form-input" placeholder="예: 카카오뱅크 3333-xx-xxxx (홍길동)">
-      </div>
-
-      <button type="button" class="btn-calc" onclick="calculateSplit()">
-        🚗 정산 내역 & 카톡 정산 문구 계산하기
+      <button type="button" class="btn-calc" onclick="calculateCarpool()">
+        🏔️ 규정 기반 1인당 차량비 계산하기
       </button>
     </div>
 
+    <!-- 계산 결과창 -->
     <div id="resultArea">
       <div class="result-card">
-        <div class="result-total-banner">
-          <div class="total-label">총 이동 경비 (주유비 + 톨비)</div>
-          <div class="total-amount" id="totalAmount">0원</div>
+        <div class="per-person-banner">
+          <div class="per-person-title">동승자 1인당 최종 입금액 (기본비 + 수고비)</div>
+          <div class="per-person-val" id="finalPerPerson">0원</div>
         </div>
 
         <div class="detail-breakdown">
           <div class="breakdown-box">
-            <div class="breakdown-title">예상 총 주유비</div>
-            <div class="breakdown-val" id="fuelCostText">0원</div>
+            <div class="breakdown-title">기본 차량비 (1/N)</div>
+            <div class="breakdown-val" id="basePerPerson">0원</div>
           </div>
           <div class="breakdown-box">
-            <div class="breakdown-title">고속도로 톨비</div>
-            <div class="breakdown-val" id="tollFeeText">0원</div>
+            <div class="breakdown-title">운전자 지원금 (거리별)</div>
+            <div class="breakdown-val" id="driverFeeText">0원</div>
+          </div>
+          <div class="breakdown-box">
+            <div class="breakdown-title">차량 1대당 총비용</div>
+            <div class="breakdown-val" id="perCarTotal">0원</div>
+          </div>
+          <div class="breakdown-box">
+            <div class="breakdown-title">정산 인원 구성</div>
+            <div class="breakdown-val" id="passengerInfoText">동승자 0명</div>
           </div>
         </div>
 
-        <div class="per-person-banner">
-          <div class="per-person-title" id="perPersonLabel">1인당 송금할 금액</div>
-          <div class="per-person-val" id="perPersonAmount">0원</div>
-        </div>
+        <div class="rule-summary-box" id="ruleExplain"></div>
 
+        <!-- 단톡방 복사 버튼 -->
         <button type="button" class="btn-kakao-copy" onclick="copyKakaoFormat()">
-          <span>💬 단톡방 정산 문구 원터치 복사하기</span>
+          <span>💬 단톡방 공지 문구 원터치 복사하기</span>
         </button>
 
+        <!-- 쿠팡 파트너스 실제 등록 링크 5종 -->
         <div class="product-section">
-          <div class="product-section-title">🚘 장거리 운전 & 카풀 추천 아이템</div>
-          <p class="product-section-sub">안전하고 편안한 이동을 위한 드라이브 꿀템 모음</p>
+          <div class="product-section-title">🏔️ 이번 산행 추천 필수 보급 & 장비</div>
+          <p class="product-section-sub">안전하고 지치지 않는 산행을 위한 에너지 행동식 및 관절 보호 장비</p>
+          
           <div class="product-list">
-            <a href="https://link.coupang.com/a/bxxxx1" target="_blank" class="btn-product">
-              <span>⚡ 차량용 무선 고속충전 스마트폰 거치대</span>
+            <!-- 1. 파워젤 -->
+            <a href="https://link.coupang.com/a/iwQwgg2ewS" target="_blank" class="btn-product">
+              <span>⚡ 업힐 봉크 방지 고농축 에너지 파워젤</span>
               <span>특가 보기 ↗</span>
             </a>
-            <a href="https://link.coupang.com/a/bxxxx2" target="_blank" class="btn-product">
-              <span>🛣️ 톨비 즉시 통과 무선 태양광 하이패스</span>
+
+            <!-- 2. 라면애밥 -->
+            <a href="https://link.coupang.com/a/iwQIWnpnqu" target="_blank" class="btn-product">
+              <span>🍲 정상에서 불 없이 끓여먹는 핫앤쿡 라면애밥</span>
               <span>특가 보기 ↗</span>
             </a>
-            <a href="https://link.coupang.com/a/bxxxx3" target="_blank" class="btn-product">
-              <span>💤 장거리 꿀잠 메모리폼 차량용 목베개</span>
+
+            <!-- 3. 전해질 타블렛 -->
+            <a href="https://link.coupang.com/a/iwQQ3zlhXU" target="_blank" class="btn-product">
+              <span>💧 근육 쥐(경련) 예방 & 수분 충전 발포 전해질</span>
+              <span>특가 보기 ↗</span>
+            </a>
+
+            <!-- 4. 무릎보호대 -->
+            <a href="https://link.coupang.com/a/iwQVSexTci" target="_blank" class="btn-product">
+              <span>🦵 하산길 무릎 통증 완화 산악용 서포터 보호대</span>
+              <span>특가 보기 ↗</span>
+            </a>
+
+            <!-- 5. 등산스틱 -->
+            <a href="https://link.coupang.com/a/iwQ0a6iuQK" target="_blank" class="btn-product">
+              <span>🦯 배낭 쏙 보관 초경량 카본 Z폴 접이식 등산스틱</span>
               <span>특가 보기 ↗</span>
             </a>
           </div>
@@ -315,103 +320,118 @@
   </div>
 
   <script>
-    let tripType = 'round';
-    let driverMode = 'free';
+    let reportData = {};
 
-    function setTripType(type) {
-      tripType = type;
-      document.getElementById('btnRound').className = `toggle-btn ${type === 'round' ? 'active' : ''}`;
-      document.getElementById('btnOneWay').className = `toggle-btn ${type === 'oneway' ? 'active' : ''}`;
+    // 거리별 운전자 수고비 규정 계산 함수
+    function getDriverCompensation(d) {
+      if (d < 100) return 5000;
+      if (d < 150) return 6000;
+      if (d < 200) return 7000;
+      if (d < 250) return 8000;
+      if (d < 300) return 9000;
+      if (d < 350) return 10000;
+      if (d < 400) return 11000;
+      if (d < 450) return 12000;
+      if (d < 500) return 13000;
+      if (d < 550) return 14000;
+      if (d < 600) return 15000;
+      if (d < 650) return 16000;
+      if (d < 700) return 17000;
+      
+      // 700km 이상부터는 50km당 1000원씩 가산
+      const extraSteps = Math.floor((d - 700) / 50) + 1;
+      return 17000 + (extraSteps * 1000);
     }
 
-    function setDriverMode(mode) {
-      driverMode = mode;
-      document.getElementById('modeDriverFree').className = `toggle-btn ${mode === 'free' ? 'active' : ''}`;
-      document.getElementById('modeEqual').className = `toggle-btn ${mode === 'equal' ? 'active' : ''}`;
-    }
+    function calculateCarpool() {
+      const dist = parseFloat(document.getElementById('dist').value) || 0;
+      const carCount = parseInt(document.getElementById('carCount').value) || 1;
+      const peopleCount = parseInt(document.getElementById('peopleCount').value) || 1;
+      const toll = parseFloat(document.getElementById('toll').value) || 0;
+      const parking = parseFloat(document.getElementById('parking').value) || 0;
+      const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 1650;
+      const fuelEff = 14.0; // 규정 공통 연비 14km/L
 
-    let calculatedData = {};
+      if (dist <= 0) return alert('주행 거리를 올바르게 입력해주세요!');
+      if (peopleCount <= carCount) return alert('총 인원은 운전자(차량 수)보다 많아야 동승자 정산이 가능합니다.');
 
-    function calculateSplit() {
-      let dist = parseFloat(document.getElementById('distance').value) || 0;
-      const eff = parseFloat(document.getElementById('fuelEff').value) || 12;
-      const price = parseFloat(document.getElementById('fuelPrice').value) || 1650;
-      let toll = parseFloat(document.getElementById('tollFee').value) || 0;
-      const count = parseInt(document.getElementById('passengers').value) || 1;
+      // 1. 차량 1대당 유류비 & 총비용 계산 (1,000원 단위 반올림 규정)
+      const rawFuelCost = (dist / fuelEff) * fuelPrice;
+      const rawCarTotal = rawFuelCost + toll + parking;
+      const carTotalRounded = Math.round(rawCarTotal / 1000) * 1000;
 
-      if (dist <= 0) return alert('이동 거리를 입력해주세요!');
-      if (count <= 0) return alert('탑승 인원을 올바르게 입력해주세요!');
+      // 2. 전체 차량 총액
+      const totalExpenseAllCars = carTotalRounded * carCount;
 
-      if (tripType === 'round') {
-        dist = dist * 2;
-        toll = toll * 2;
-      }
+      // 3. 운전자 제외 동승자 인원 수
+      const passengerCount = peopleCount - carCount;
 
-      const totalFuelCost = Math.round((dist / eff) * price);
-      const totalExpense = totalFuelCost + toll;
+      // 4. 동승자 1인당 기본 차량비 분담금 (1,000원 단위 반올림)
+      const basePerPassenger = Math.round((totalExpenseAllCars / passengerCount) / 1000) * 1000;
 
-      let splitTargetCount = count;
-      if (driverMode === 'free') {
-        splitTargetCount = count > 1 ? count - 1 : 1;
-      }
+      // 5. 거리별 운전자 수고비 (개인 분담금 추가 지급)
+      const driverFee = getDriverCompensation(dist);
 
-      const perPerson = Math.ceil((totalExpense / splitTargetCount) / 100) * 100;
+      // 6. 최종 1인당 총 송금액
+      const finalAmount = basePerPassenger + driverFee;
 
-      calculatedData = {
-        tripText: tripType === 'round' ? '왕복' : '편도',
+      reportData = {
         dist: dist,
-        totalExpense: totalExpense,
-        totalFuelCost: totalFuelCost,
+        carCount: carCount,
+        peopleCount: peopleCount,
+        passengerCount: passengerCount,
         toll: toll,
-        count: count,
-        splitTargetCount: splitTargetCount,
-        driverMode: driverMode,
-        perPerson: perPerson,
-        bank: document.getElementById('bankInfo').value.trim()
+        parking: parking,
+        fuelPrice: fuelPrice,
+        carTotalRounded: carTotalRounded,
+        basePerPassenger: basePerPassenger,
+        driverFee: driverFee,
+        finalAmount: finalAmount,
+        bank: document.getElementById('bank').value.trim()
       };
 
-      document.getElementById('totalAmount').innerText = totalExpense.toLocaleString() + '원';
-      document.getElementById('fuelCostText').innerText = totalFuelCost.toLocaleString() + '원';
-      document.getElementById('tollFeeText').innerText = toll.toLocaleString() + '원';
-      
-      document.getElementById('perPersonLabel').innerText = (driverMode === 'free' && count > 1) 
-        ? `동승자 1인당 송금액 (운전자 수고비 면제)` 
-        : `1인당 정산 금액 (${count}인 균등)`;
-      document.getElementById('perPersonAmount').innerText = perPerson.toLocaleString() + '원';
+      // 화면 반영
+      document.getElementById('finalPerPerson').innerText = finalAmount.toLocaleString() + '원';
+      document.getElementById('basePerPerson').innerText = basePerPassenger.toLocaleString() + '원';
+      document.getElementById('driverFeeText').innerText = driverFee.toLocaleString() + '원';
+      document.getElementById('perCarTotal').innerText = carTotalRounded.toLocaleString() + '원';
+      document.getElementById('passengerInfoText').innerText = `운전자 ${carCount}명 / 동승자 ${passengerCount}명`;
+
+      document.getElementById('ruleExplain').innerHTML = `
+        • <strong>차량 1대당 경비:</strong> ${carTotalRounded.toLocaleString()}원 (유류비 + 톨비 + 주차비 반올림)<br>
+        • <strong>기본 1/N 분담:</strong> 차량 ${carCount}대 총액 ÷ 동승자 ${passengerCount}명 = <strong>${basePerPassenger.toLocaleString()}원</strong><br>
+        • <strong>운전자 수고비:</strong> ${dist}km 구간 규정 적용 ➔ <strong>+${driverFee.toLocaleString()}원</strong>
+      `;
 
       document.getElementById('resultArea').style.display = 'block';
       document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyKakaoFormat() {
-      if (!calculatedData.totalExpense) return;
+      if (!reportData.finalAmount) return;
 
-      const d = calculatedData;
-      let msg = `[🚗 장거리 드라이브 경비 정산표]\n`;
-      msg += `• 주행 구분: ${d.tripText} (${d.dist}km)\n`;
-      msg += `• 총 유류비: ${d.totalFuelCost.toLocaleString()}원\n`;
-      msg += `• 고속 톨비: ${d.toll.toLocaleString()}원\n`;
-      msg += `• 총 발생 경비: ${d.totalExpense.toLocaleString()}원\n`;
-      msg += `--------------------------\n`;
-      
-      if (d.driverMode === 'free' && d.count > 1) {
-        msg += `💡 운전자 배려 정산: 동승자 ${d.splitTargetCount}명이 분담\n`;
-        msg += `👉 1인당 입금액: ${d.perPerson.toLocaleString()}원\n`;
-      } else {
-        msg += `👉 1인당 입금액: ${d.perPerson.toLocaleString()}원 (전원 균등)\n`;
-      }
+      const d = reportData;
+      let msg = `[🏔️ 산행 카풀 차량비 정산 안내]\n\n`;
+      msg += `• 왕복 주행거리: ${d.dist}km\n`;
+      msg += `• 운행 구성: 차량 ${d.carCount}대 / 총 ${d.peopleCount}명 (동승자 ${d.passengerCount}명)\n`;
+      msg += `• 차량 1대당 경비: ${d.carTotalRounded.toLocaleString()}원\n`;
+      msg += `---------------------------\n`;
+      msg += `1️⃣ 기본 차량비 분담금: ${d.basePerPassenger.toLocaleString()}원\n`;
+      msg += `2️⃣ 운전자 수고·세차비: ${d.driverFee.toLocaleString()}원\n`;
+      msg += `👉 동승자 1인당 입금액: ${d.finalAmount.toLocaleString()}원\n`;
+      msg += `---------------------------\n`;
 
       if (d.bank) {
-        msg += `• 입금 계좌: ${d.bank}\n`;
+        msg += `🏦 입금 계좌: ${d.bank}\n`;
+        msg += `---------------------------\n`;
       }
-      
-      msg += `--------------------------\n`;
-      msg += `간편 드라이브 & 카풀 정산기 링크 👇\n`;
+
+      msg += `산악회 카풀 정산기 링크 👇\n`;
       msg += window.location.href;
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(msg).then(() => {
-          alert('단톡방 정산 문구가 복사되었습니다!\n카카오톡 단톡방에 바로 붙여넣으세요.');
+          alert('단톡방 공지 문구가 복사되었습니다!\n산악회 카카오톡 방에 바로 붙여넣으세요.');
         });
       } else {
         alert('복사 기능을 지원하지 않는 브라우저입니다.');
