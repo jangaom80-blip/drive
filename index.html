@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>장거리 드라이브 주유비 & 톨비 n빵 계산기</title>
+
+  <!-- 메타태그 (카톡 공유 카드) -->
+  <meta property="og:title" content="장거리 드라이브 주유비 & 톨비 n빵 계산기">
+  <meta property="og:description" content="거리, 실연비, 톨비, 인원만 넣으면 1인당 정산 금액과 카톡 정산 문구 자동 완성!">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: #151b28;
+      --card-border: #242e42;
+      --text-white: #f8fafc;
+      --text-sub: #94a3b8;
+      --primary-blue: #3b82f6;
+      --primary-green: #10b981;
+      --accent-gold: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-dark); color: var(--text-white); padding: 24px 14px 50px; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 480px; margin: 0 auto; }
+
+    header { text-align: center; margin-bottom: 22px; }
+    .badge-top { display: inline-block; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    h1 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 5px; }
+    .sub-title { font-size: 12.5px; color: var(--text-sub); }
+
+    .input-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px 16px;
+      margin-bottom: 20px;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; }
+    .form-input {
+      width: 100%;
+      background: #0f1522;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--primary-blue); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* 토글 탭 */
+    .toggle-group {
+      display: flex;
+      background: #0f1522;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid #232c3f;
+      margin-bottom: 14px;
+    }
+    .toggle-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: none;
+      color: var(--text-sub);
+      font-size: 12.5px;
+      font-weight: 800;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .toggle-btn.active {
+      background: var(--primary-blue);
+      color: #fff;
+    }
+
+    .btn-calc {
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+    }
+    .btn-calc:active { transform: scale(0.98); }
+
+    /* 결과 영역 */
+    #resultArea { display: none; }
+    .result-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px 16px;
+      margin-bottom: 16px;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .result-total-banner {
+      background: #0f1522;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .total-label { font-size: 12.5px; color: var(--text-sub); margin-bottom: 4px; }
+    .total-amount { font-size: 28px; font-weight: 900; color: var(--accent-gold); }
+
+    .detail-breakdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .breakdown-box {
+      background: #0f1522;
+      border: 1px solid #232c3f;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .breakdown-title { font-size: 11px; color: var(--text-sub); margin-bottom: 2px; }
+    .breakdown-val { font-size: 14.5px; font-weight: 800; color: #fff; }
+
+    .per-person-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+      border: 1px solid #3b82f6;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .per-person-title { font-size: 13px; color: #93c5fd; font-weight: 700; margin-bottom: 4px; }
+    .per-person-val { font-size: 26px; font-weight: 900; color: #fff; }
+
+    .btn-kakao-copy {
+      width: 100%;
+      background: #fee500;
+      color: #191919;
+      font-size: 14.5px;
+      font-weight: 900;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    /* 쿠팡 파트너스 영역 */
+    .product-section {
+      background: #101625;
+      border: 1px solid #2d3b55;
+      border-radius: 14px;
+      padding: 15px;
+      margin-top: 10px;
+    }
+    .product-section-title { font-size: 13px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+    .product-section-sub { font-size: 11.5px; color: var(--text-sub); margin-bottom: 12px; }
+    
+    .product-list { display: flex; flex-direction: column; gap: 8px; }
+    .btn-product {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #172136;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+    .btn-product:active { background: #1e293b; }
+    .btn-product span:last-child {
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .coupang-notice {
+      font-size: 10.5px;
+      color: #475569;
+      text-align: center;
+      line-height: 1.4;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-top">DRIVE STATS & SETTLE</div>
+      <h1>장거리 드라이브 정산기</h1>
+      <p class="sub-title">주유비 · 톨비 깔끔한 1/N 계산 & 단톡방 정산표 생성</p>
+    </header>
+
+    <div class="input-card">
+      <div class="toggle-group">
+        <button type="button" class="toggle-btn active" id="btnRound" onclick="setTripType('round')">왕복 주행</button>
+        <button type="button" class="toggle-btn" id="btnOneWay" onclick="setTripType('oneway')">편도 주행</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label" for="distance">주행 거리 (km)</label>
+          <input type="number" id="distance" class="form-input" placeholder="예: 250" value="200">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fuelEff">차량 실연비 (km/L)</label>
+          <input type="number" step="0.1" id="fuelEff" class="form-input" placeholder="예: 11.5" value="12.0">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label" for="fuelPrice">리터당 유가 (원)</label>
+          <input type="number" id="fuelPrice" class="form-input" placeholder="예: 1650" value="1650">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="tollFee">고속도로 톨비 (원)</label>
+          <input type="number" id="tollFee" class="form-input" placeholder="예: 12000" value="12000">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="passengers">탑승 인원 (운전자 포함)</label>
+        <input type="number" id="passengers" class="form-input" placeholder="예: 4" value="4">
+      </div>
+
+      <label class="form-label">운전자 배려 옵션</label>
+      <div class="toggle-group">
+        <button type="button" class="toggle-btn active" id="modeDriverFree" onclick="setDriverMode('free')">운전자 면제 (동승자만 n빵)</button>
+        <button type="button" class="toggle-btn" id="modeEqual" onclick="setDriverMode('equal')">전원 균등 분담 (운전자 포함)</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="bankInfo">입금받을 계좌 (선택 입력)</label>
+        <input type="text" id="bankInfo" class="form-input" placeholder="예: 카카오뱅크 3333-xx-xxxx (홍길동)">
+      </div>
+
+      <button type="button" class="btn-calc" onclick="calculateSplit()">
+        🚗 정산 내역 & 카톡 정산 문구 계산하기
+      </button>
+    </div>
+
+    <div id="resultArea">
+      <div class="result-card">
+        <div class="result-total-banner">
+          <div class="total-label">총 이동 경비 (주유비 + 톨비)</div>
+          <div class="total-amount" id="totalAmount">0원</div>
+        </div>
+
+        <div class="detail-breakdown">
+          <div class="breakdown-box">
+            <div class="breakdown-title">예상 총 주유비</div>
+            <div class="breakdown-val" id="fuelCostText">0원</div>
+          </div>
+          <div class="breakdown-box">
+            <div class="breakdown-title">고속도로 톨비</div>
+            <div class="breakdown-val" id="tollFeeText">0원</div>
+          </div>
+        </div>
+
+        <div class="per-person-banner">
+          <div class="per-person-title" id="perPersonLabel">1인당 송금할 금액</div>
+          <div class="per-person-val" id="perPersonAmount">0원</div>
+        </div>
+
+        <button type="button" class="btn-kakao-copy" onclick="copyKakaoFormat()">
+          <span>💬 단톡방 정산 문구 원터치 복사하기</span>
+        </button>
+
+        <div class="product-section">
+          <div class="product-section-title">🚘 장거리 운전 & 카풀 추천 아이템</div>
+          <p class="product-section-sub">안전하고 편안한 이동을 위한 드라이브 꿀템 모음</p>
+          <div class="product-list">
+            <a href="https://link.coupang.com/a/bxxxx1" target="_blank" class="btn-product">
+              <span>⚡ 차량용 무선 고속충전 스마트폰 거치대</span>
+              <span>특가 보기 ↗</span>
+            </a>
+            <a href="https://link.coupang.com/a/bxxxx2" target="_blank" class="btn-product">
+              <span>🛣️ 톨비 즉시 통과 무선 태양광 하이패스</span>
+              <span>특가 보기 ↗</span>
+            </a>
+            <a href="https://link.coupang.com/a/bxxxx3" target="_blank" class="btn-product">
+              <span>💤 장거리 꿀잠 메모리폼 차량용 목베개</span>
+              <span>특가 보기 ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <p class="coupang-notice">
+          이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let tripType = 'round';
+    let driverMode = 'free';
+
+    function setTripType(type) {
+      tripType = type;
+      document.getElementById('btnRound').className = `toggle-btn ${type === 'round' ? 'active' : ''}`;
+      document.getElementById('btnOneWay').className = `toggle-btn ${type === 'oneway' ? 'active' : ''}`;
+    }
+
+    function setDriverMode(mode) {
+      driverMode = mode;
+      document.getElementById('modeDriverFree').className = `toggle-btn ${mode === 'free' ? 'active' : ''}`;
+      document.getElementById('modeEqual').className = `toggle-btn ${mode === 'equal' ? 'active' : ''}`;
+    }
+
+    let calculatedData = {};
+
+    function calculateSplit() {
+      let dist = parseFloat(document.getElementById('distance').value) || 0;
+      const eff = parseFloat(document.getElementById('fuelEff').value) || 12;
+      const price = parseFloat(document.getElementById('fuelPrice').value) || 1650;
+      let toll = parseFloat(document.getElementById('tollFee').value) || 0;
+      const count = parseInt(document.getElementById('passengers').value) || 1;
+
+      if (dist <= 0) return alert('이동 거리를 입력해주세요!');
+      if (count <= 0) return alert('탑승 인원을 올바르게 입력해주세요!');
+
+      if (tripType === 'round') {
+        dist = dist * 2;
+        toll = toll * 2;
+      }
+
+      const totalFuelCost = Math.round((dist / eff) * price);
+      const totalExpense = totalFuelCost + toll;
+
+      let splitTargetCount = count;
+      if (driverMode === 'free') {
+        splitTargetCount = count > 1 ? count - 1 : 1;
+      }
+
+      const perPerson = Math.ceil((totalExpense / splitTargetCount) / 100) * 100;
+
+      calculatedData = {
+        tripText: tripType === 'round' ? '왕복' : '편도',
+        dist: dist,
+        totalExpense: totalExpense,
+        totalFuelCost: totalFuelCost,
+        toll: toll,
+        count: count,
+        splitTargetCount: splitTargetCount,
+        driverMode: driverMode,
+        perPerson: perPerson,
+        bank: document.getElementById('bankInfo').value.trim()
+      };
+
+      document.getElementById('totalAmount').innerText = totalExpense.toLocaleString() + '원';
+      document.getElementById('fuelCostText').innerText = totalFuelCost.toLocaleString() + '원';
+      document.getElementById('tollFeeText').innerText = toll.toLocaleString() + '원';
+      
+      document.getElementById('perPersonLabel').innerText = (driverMode === 'free' && count > 1) 
+        ? `동승자 1인당 송금액 (운전자 수고비 면제)` 
+        : `1인당 정산 금액 (${count}인 균등)`;
+      document.getElementById('perPersonAmount').innerText = perPerson.toLocaleString() + '원';
+
+      document.getElementById('resultArea').style.display = 'block';
+      document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyKakaoFormat() {
+      if (!calculatedData.totalExpense) return;
+
+      const d = calculatedData;
+      let msg = `[🚗 장거리 드라이브 경비 정산표]\n`;
+      msg += `• 주행 구분: ${d.tripText} (${d.dist}km)\n`;
+      msg += `• 총 유류비: ${d.totalFuelCost.toLocaleString()}원\n`;
+      msg += `• 고속 톨비: ${d.toll.toLocaleString()}원\n`;
+      msg += `• 총 발생 경비: ${d.totalExpense.toLocaleString()}원\n`;
+      msg += `--------------------------\n`;
+      
+      if (d.driverMode === 'free' && d.count > 1) {
+        msg += `💡 운전자 배려 정산: 동승자 ${d.splitTargetCount}명이 분담\n`;
+        msg += `👉 1인당 입금액: ${d.perPerson.toLocaleString()}원\n`;
+      } else {
+        msg += `👉 1인당 입금액: ${d.perPerson.toLocaleString()}원 (전원 균등)\n`;
+      }
+
+      if (d.bank) {
+        msg += `• 입금 계좌: ${d.bank}\n`;
+      }
+      
+      msg += `--------------------------\n`;
+      msg += `간편 드라이브 & 카풀 정산기 링크 👇\n`;
+      msg += window.location.href;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(msg).then(() => {
+          alert('단톡방 정산 문구가 복사되었습니다!\n카카오톡 단톡방에 바로 붙여넣으세요.');
+        });
+      } else {
+        alert('복사 기능을 지원하지 않는 브라우저입니다.');
+      }
+    }
+  </script>
+</body>
+</html>
