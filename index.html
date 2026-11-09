@@ -6,8 +6,8 @@
   <title>산악회 장거리 카풀 & 차량비 정산기</title>
 
   <!-- 메타태그 (카카오톡 공유 카드) -->
-  <meta property="og:title" content="산악회 장거리 카풀 & 차량비 정산기">
-  <meta property="og:description" content="거리·톨비만 넣으면 산악회 공식 규정에 맞춘 1인당 정산금과 카톡 정산 문구 자동 완성!">
+  <meta property="og:title" content="전국 산악회 장거리 카풀 & 차량비 정산기">
+  <meta property="og:description" content="거리·톨비만 넣으면 산악회 표준 규정 1인당 정산금과 단톡방 공지 문구 자동 완성!">
   <meta property="og:type" content="website">
 
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -19,7 +19,6 @@
       --text-white: #f8fafc;
       --text-sub: #94a3b8;
       --primary-green: #10b981;
-      --primary-blue: #3b82f6;
       --accent-gold: #f59e0b;
     }
 
@@ -57,6 +56,32 @@
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
+    /* 차종별 연비 간편 선택 버튼 */
+    .car-preset-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+    }
+    .preset-btn {
+      background: #0f1522;
+      border: 1px solid #334155;
+      color: var(--text-sub);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 4px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .preset-btn.active {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: var(--primary-green);
+      color: #34d399;
+      font-weight: 800;
+    }
+
     .btn-calc {
       width: 100%;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -72,7 +97,7 @@
     }
     .btn-calc:active { transform: scale(0.98); }
 
-    /* 결과 영역 */
+    /* 결과창 */
     #resultArea { display: none; }
     .result-card {
       background: var(--card-bg);
@@ -139,7 +164,7 @@
     }
     .btn-kakao-copy:active { opacity: 0.9; }
 
-    /* 쿠팡 파트너스 등산 보급/장비 영역 */
+    /* 쿠팡 파트너스 추천 영역 */
     .product-section {
       background: #101625;
       border: 1px solid #2d3b55;
@@ -187,56 +212,62 @@
   <div class="container">
     <header>
       <div class="badge-top">HIKING CARPOOL STATS</div>
-      <h1>산악회 장거리 카풀 정산기</h1>
-      <p class="sub-title">평정산친구 & 산악회 공식 차량비 규정 자동 계산 도구</p>
+      <h1>산악회 장거리 카풀 & 차량비 정산기</h1>
+      <p class="sub-title">전국 산악회 표준 차량비 규정 (유류비·톨비 1/N + 운전자 지원금)</p>
     </header>
 
     <div class="input-card">
       <div class="form-group">
         <label class="form-label" for="dist">왕복 총 주행 거리 (km)</label>
-        <input type="number" id="dist" class="form-input" placeholder="예: 480" value="480">
+        <input type="number" id="dist" class="form-input" placeholder="직접 입력 (예: 420)" value="420">
+      </div>
+
+      <!-- 휘발유 가격: 기본값 1,810원 세팅 & 자유롭게 직접 입력 가능 -->
+      <div class="form-group">
+        <label class="form-label" for="fuelPrice">휘발유 가격 (원/L) <span>*직접 수정 가능</span></label>
+        <input type="number" id="fuelPrice" class="form-input" placeholder="주유 가격 입력 (예: 1810)" value="1810">
+      </div>
+
+      <!-- 차종별 연비: 프리셋 버튼 또는 직접 숫자 입력 지원 -->
+      <div class="form-group" style="margin-bottom: 6px;">
+        <label class="form-label">차량 기준 연비 (km/L) <span>*직접 수정 가능</span></label>
+        <div class="car-preset-group">
+          <button type="button" class="preset-btn active" id="btnSedan" onclick="selectCarType('sedan', 12.5)">승용차 (12.5)</button>
+          <button type="button" class="preset-btn" id="btnSuv" onclick="selectCarType('suv', 10.5)">SUV·RV (10.5)</button>
+          <button type="button" class="preset-btn" id="btnHybrid" onclick="selectCarType('hybrid', 16.0)">하이브리드 (16.0)</button>
+        </div>
+        <input type="number" step="0.1" id="fuelEff" class="form-input" placeholder="연비 직접 입력" value="12.5">
       </div>
 
       <div class="grid-2">
         <div class="form-group">
           <label class="form-label" for="carCount">운행 차량 수 (대)</label>
-          <input type="number" id="carCount" class="form-input" placeholder="예: 3" value="3">
+          <input type="number" id="carCount" class="form-input" placeholder="예: 2" value="2">
         </div>
         <div class="form-group">
           <label class="form-label" for="peopleCount">총 탑승 인원 (명) <span>*운전자 포함</span></label>
-          <input type="number" id="peopleCount" class="form-input" placeholder="예: 13" value="13">
+          <input type="number" id="peopleCount" class="form-input" placeholder="예: 8" value="8">
         </div>
       </div>
 
       <div class="grid-2">
         <div class="form-group">
           <label class="form-label" for="toll">차량 1대당 톨비 (원)</label>
-          <input type="number" id="toll" class="form-input" placeholder="예: 15000" value="15000">
+          <input type="number" id="toll" class="form-input" placeholder="예: 14000" value="14000">
         </div>
         <div class="form-group">
           <label class="form-label" for="parking">차량 1대당 주차비 (원)</label>
-          <input type="number" id="parking" class="form-input" placeholder="예: 6000" value="6000">
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="form-group">
-          <label class="form-label" for="fuelPrice">휘발유가 (원/L) <span>*오피넷</span></label>
-          <input type="number" id="fuelPrice" class="form-input" value="1650">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="fuelEff">규정 공통 연비 (km/L)</label>
-          <input type="number" id="fuelEff" class="form-input" value="14" readonly style="color: #94a3b8; background: #0b0f19;">
+          <input type="number" id="parking" class="form-input" placeholder="예: 5000" value="5000">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="bank">입금 계좌 정보 (선택 입력)</label>
+        <label class="form-label" for="bank">입금 계좌 번호 (선택 입력)</label>
         <input type="text" id="bank" class="form-input" placeholder="예: 카카오뱅크 3333-xx-xxxx (홍길동)">
       </div>
 
       <button type="button" class="btn-calc" onclick="calculateCarpool()">
-        🏔️ 규정 기반 1인당 차량비 계산하기
+        🏔️ 표준 규정 기반 1인당 차량비 계산하기
       </button>
     </div>
 
@@ -244,7 +275,7 @@
     <div id="resultArea">
       <div class="result-card">
         <div class="per-person-banner">
-          <div class="per-person-title">동승자 1인당 최종 입금액 (기본비 + 수고비)</div>
+          <div class="per-person-title">동승자 1인당 최종 입금액 (기본 차량비 + 수고비)</div>
           <div class="per-person-val" id="finalPerPerson">0원</div>
         </div>
 
@@ -258,7 +289,7 @@
             <div class="breakdown-val" id="driverFeeText">0원</div>
           </div>
           <div class="breakdown-box">
-            <div class="breakdown-title">차량 1대당 총비용</div>
+            <div class="breakdown-title">차량 1대당 총 경비</div>
             <div class="breakdown-val" id="perCarTotal">0원</div>
           </div>
           <div class="breakdown-box">
@@ -322,7 +353,15 @@
   <script>
     let reportData = {};
 
-    // 거리별 운전자 수고비 규정 계산 함수
+    function selectCarType(type, eff) {
+      document.getElementById('fuelEff').value = eff;
+      document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+      if (type === 'sedan') document.getElementById('btnSedan').classList.add('active');
+      if (type === 'suv') document.getElementById('btnSuv').classList.add('active');
+      if (type === 'hybrid') document.getElementById('btnHybrid').classList.add('active');
+    }
+
+    // 거리별 운전자 수고비/세차비 규정 계산
     function getDriverCompensation(d) {
       if (d < 100) return 5000;
       if (d < 150) return 6000;
@@ -338,7 +377,6 @@
       if (d < 650) return 16000;
       if (d < 700) return 17000;
       
-      // 700km 이상부터는 50km당 1000원씩 가산
       const extraSteps = Math.floor((d - 700) / 50) + 1;
       return 17000 + (extraSteps * 1000);
     }
@@ -349,8 +387,8 @@
       const peopleCount = parseInt(document.getElementById('peopleCount').value) || 1;
       const toll = parseFloat(document.getElementById('toll').value) || 0;
       const parking = parseFloat(document.getElementById('parking').value) || 0;
-      const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 1650;
-      const fuelEff = 14.0; // 규정 공통 연비 14km/L
+      const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 1810;
+      const fuelEff = parseFloat(document.getElementById('fuelEff').value) || 12.5;
 
       if (dist <= 0) return alert('주행 거리를 올바르게 입력해주세요!');
       if (peopleCount <= carCount) return alert('총 인원은 운전자(차량 수)보다 많아야 동승자 정산이 가능합니다.');
@@ -383,6 +421,7 @@
         toll: toll,
         parking: parking,
         fuelPrice: fuelPrice,
+        fuelEff: fuelEff,
         carTotalRounded: carTotalRounded,
         basePerPassenger: basePerPassenger,
         driverFee: driverFee,
@@ -398,9 +437,9 @@
       document.getElementById('passengerInfoText').innerText = `운전자 ${carCount}명 / 동승자 ${passengerCount}명`;
 
       document.getElementById('ruleExplain').innerHTML = `
-        • <strong>차량 1대당 경비:</strong> ${carTotalRounded.toLocaleString()}원 (유류비 + 톨비 + 주차비 반올림)<br>
+        • <strong>차량 1대당 실경비:</strong> ${carTotalRounded.toLocaleString()}원 (유류비 + 톨비 + 주차비 반올림)<br>
         • <strong>기본 1/N 분담:</strong> 차량 ${carCount}대 총액 ÷ 동승자 ${passengerCount}명 = <strong>${basePerPassenger.toLocaleString()}원</strong><br>
-        • <strong>운전자 수고비:</strong> ${dist}km 구간 규정 적용 ➔ <strong>+${driverFee.toLocaleString()}원</strong>
+        • <strong>운전자 수고·세차비:</strong> ${dist}km 표준 규정 적용 ➔ <strong>+${driverFee.toLocaleString()}원</strong>
       `;
 
       document.getElementById('resultArea').style.display = 'block';
@@ -414,10 +453,10 @@
       let msg = `[🏔️ 산행 카풀 차량비 정산 안내]\n\n`;
       msg += `• 왕복 주행거리: ${d.dist}km\n`;
       msg += `• 운행 구성: 차량 ${d.carCount}대 / 총 ${d.peopleCount}명 (동승자 ${d.passengerCount}명)\n`;
-      msg += `• 차량 1대당 경비: ${d.carTotalRounded.toLocaleString()}원\n`;
+      msg += `• 차량 1대당 경비: ${d.carTotalRounded.toLocaleString()}원 (유가 ${d.fuelPrice.toLocaleString()}원 기준)\n`;
       msg += `---------------------------\n`;
       msg += `1️⃣ 기본 차량비 분담금: ${d.basePerPassenger.toLocaleString()}원\n`;
-      msg += `2️⃣ 운전자 수고·세차비: ${d.driverFee.toLocaleString()}원\n`;
+      msg += `2️⃣ 운전자 수고·세차 지원: ${d.driverFee.toLocaleString()}원\n`;
       msg += `👉 동승자 1인당 입금액: ${d.finalAmount.toLocaleString()}원\n`;
       msg += `---------------------------\n`;
 
@@ -431,7 +470,7 @@
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(msg).then(() => {
-          alert('단톡방 공지 문구가 복사되었습니다!\n산악회 카카오톡 방에 바로 붙여넣으세요.');
+          alert('단톡방 정산 공지 문구가 복사되었습니다!\n산악회 카카오톡 방에 바로 붙여넣으세요.');
         });
       } else {
         alert('복사 기능을 지원하지 않는 브라우저입니다.');
