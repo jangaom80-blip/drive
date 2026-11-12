@@ -20,6 +20,7 @@
       --text-sub: #94a3b8;
       --primary-green: #10b981;
       --primary-blue: #3b82f6;
+      --rocket-blue: #0073e9;
       --accent-gold: #f59e0b;
     }
 
@@ -145,7 +146,6 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* 일반 정산 단일 배너 */
     .per-person-banner {
       background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
       border: 1px solid #059669;
@@ -157,7 +157,6 @@
     .per-person-title { font-size: 13px; color: #6ee7b7; font-weight: 700; margin-bottom: 4px; }
     .per-person-val { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
 
-    /* 경유지 분리 2열 배너 */
     .split-person-banner {
       display: none;
       grid-template-columns: 1fr 1fr;
@@ -215,59 +214,205 @@
       color: #191919;
       font-size: 14.5px;
       font-weight: 900;
-      padding: 14px;
-      border-radius: 10px;
+      padding: 15px;
+      border-radius: 12px;
       border: none;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 14px rgba(254, 229, 0, 0.2);
     }
-    .btn-kakao-copy:active { opacity: 0.9; }
+    .btn-kakao-copy:active { opacity: 0.9; transform: scale(0.99); }
 
-    /* 쿠팡 파트너스 추천 영역 */
+    /* =========================================
+       고시인성 쿠팡 파트너스 쇼핑 & 특가 섹션
+       ========================================= */
     .product-section {
-      background: #101625;
-      border: 1px solid #2d3b55;
-      border-radius: 14px;
-      padding: 16px;
-      margin-top: 10px;
+      background: linear-gradient(180deg, #162035 0%, #0f1626 100%);
+      border: 1.5px solid #33476b;
+      border-radius: 16px;
+      padding: 18px 14px;
+      margin-top: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
-    .product-section-title { font-size: 13.5px; font-weight: 900; color: #fff; margin-bottom: 4px; }
-    .product-section-sub { font-size: 11.5px; color: var(--text-sub); margin-bottom: 14px; line-height: 1.4; }
-    
-    .product-list { display: flex; flex-direction: column; gap: 9px; }
-    .btn-product {
+    .product-section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #172136;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 12px 14px;
-      text-decoration: none;
-      color: #e2e8f0;
-      font-size: 12.5px;
-      font-weight: 700;
+      margin-bottom: 4px;
     }
-    .btn-product:active { background: #1e293b; }
-    .btn-product span:last-child {
-      background: rgba(16, 185, 129, 0.2);
-      color: #34d399;
-      font-size: 11px;
+    .product-section-title { font-size: 15px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
+    .rocket-pill-top {
+      background: rgba(0, 115, 233, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      color: #60a5fa;
+      font-size: 10.5px;
       font-weight: 800;
       padding: 3px 8px;
+      border-radius: 12px;
+    }
+    .product-section-sub { font-size: 12px; color: #cbd5e1; margin-bottom: 14px; line-height: 1.4; }
+
+    /* 상단 2열 대형 퀵 배너 (골드박스 & 로켓배송) */
+    .quick-deal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .quick-deal-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 14px;
+      padding: 14px 12px;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+    .quick-deal-card:active { transform: scale(0.97); }
+
+    /* 골드박스 카드 */
+    .deal-goldbox {
+      background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+      border: 1.5px solid #f59e0b;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22);
+    }
+    .deal-goldbox .deal-badge {
+      display: inline-block;
+      background: #f59e0b;
+      color: #111827;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 7px;
       border-radius: 6px;
+      margin-bottom: 7px;
+      width: fit-content;
+    }
+    .deal-goldbox .deal-title { font-size: 14.5px; font-weight: 900; color: #fef3c7; margin-bottom: 3px; line-height: 1.25; }
+    .deal-goldbox .deal-desc { font-size: 11px; color: #fde68a; margin-bottom: 10px; line-height: 1.3; }
+    .deal-goldbox .deal-cta {
+      background: #fbbf24;
+      color: #111827;
+      font-size: 11.5px;
+      font-weight: 900;
+      text-align: center;
+      padding: 7px 0;
+      border-radius: 8px;
+    }
+
+    /* 로켓배송 카드 */
+    .deal-rocket {
+      background: linear-gradient(135deg, #0c2444 0%, #1d4ed8 100%);
+      border: 1.5px solid #60a5fa;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+    }
+    .deal-rocket .deal-badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-bottom: 7px;
+      width: fit-content;
+    }
+    .deal-rocket .deal-title { font-size: 14.5px; font-weight: 900; color: #ffffff; margin-bottom: 3px; line-height: 1.25; }
+    .deal-rocket .deal-desc { font-size: 11px; color: #dbeafe; margin-bottom: 10px; line-height: 1.3; }
+    .deal-rocket .deal-cta {
+      background: #ffffff;
+      color: #1e3a8a;
+      font-size: 11.5px;
+      font-weight: 900;
+      text-align: center;
+      padding: 7px 0;
+      border-radius: 8px;
+    }
+
+    /* 등산 필수템 5종 고시인성 리스트 카드 */
+    .product-list { display: flex; flex-direction: column; gap: 10px; }
+    .btn-product-card {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      background: #1e293b;
+      border: 1px solid #3b4c6b;
+      border-radius: 12px;
+      padding: 12px;
+      text-decoration: none;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .btn-product-card:active { background: #273549; transform: scale(0.98); }
+
+    .prod-icon-box {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+    }
+
+    .prod-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .prod-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 3px;
+    }
+    .prod-tag {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1.5px 6px;
+      border-radius: 4px;
+    }
+    .tag-rocket { background: rgba(56, 189, 248, 0.18); color: #38bdf8; }
+    .tag-best { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+    .prod-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #f8fafc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .prod-sub {
+      font-size: 11.5px;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .prod-cta-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 9px 11px;
+      border-radius: 9px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
     }
 
     .coupang-notice {
       font-size: 10.5px;
-      color: #475569;
+      color: #64748b;
       text-align: center;
       line-height: 1.4;
-      margin-top: 16px;
+      margin-top: 14px;
     }
   </style>
 </head>
@@ -365,13 +510,13 @@
     <!-- 계산 결과창 -->
     <div id="resultArea">
       <div class="result-card">
-        <!-- 1. 단일 정산 결과 배너 (경유지 없을 때) -->
+        <!-- 1. 단일 정산 결과 배너 -->
         <div class="per-person-banner" id="singleBanner">
           <div class="per-person-title">동승자 1인당 최종 입금액 (기본 차량비 + 수고비)</div>
           <div class="per-person-val" id="finalPerPerson">0원</div>
         </div>
 
-        <!-- 2. 분리 정산 결과 배너 (경유지 있을 때) -->
+        <!-- 2. 분리 정산 결과 배너 -->
         <div class="split-person-banner" id="splitBanner">
           <div class="split-box full">
             <div class="split-title">🚗 출발지 탑승자</div>
@@ -403,47 +548,114 @@
           <span>💬 단톡방 공지 문구 원터치 복사하기</span>
         </button>
 
-        <!-- 쿠팡 파트너스 추천 5종 -->
+        <!-- 고시인성 쿠팡 파트너스 쇼핑 & 특가 섹션 -->
         <div class="product-section">
-          <div class="product-section-title">🏔️ 이번 산행 추천 필수 보급 & 장비</div>
-          <p class="product-section-sub">안전하고 지치지 않는 산행을 위한 에너지 행동식 및 관절 보호 장비</p>
-          
+          <div class="product-section-header">
+            <div class="product-section-title">🛒 이번 산행 준비 & 오늘의 특가</div>
+            <span class="rocket-pill-top">🚀 내일 새벽도착</span>
+          </div>
+          <p class="product-section-sub">산행 전날 밤 주문해도 내일 바로 도착하는 추천 보급 & 특가 모음</p>
+
+          <!-- 상단 2열 대형 퀵 배너 (골드박스 & 로켓배송) -->
+          <div class="quick-deal-grid">
+            <!-- 골드박스 특가 링크 -->
+            <a href="여기에_골드박스_단축URL_입력" target="_blank" class="quick-deal-card deal-goldbox">
+              <div>
+                <span class="deal-badge">🔥 매일 오전 7시</span>
+                <div class="deal-title">골드박스<br>1일 한정 특가</div>
+                <div class="deal-desc">오늘만 최대 할인 인기상품 모음</div>
+              </div>
+              <div class="deal-cta">특가 보러가기 ›</div>
+            </a>
+
+            <!-- 로켓배송 바로가기 링크 -->
+            <a href="여기에_로켓배송_단축URL_입력" target="_blank" class="quick-deal-card deal-rocket">
+              <div>
+                <span class="deal-badge">🚀 와우 무료배송</span>
+                <div class="deal-title">로켓배송<br>빠른 장보기</div>
+                <div class="deal-desc">간식·생필품 내일 바로 도착</div>
+              </div>
+              <div class="deal-cta">바로가기 ›</div>
+            </a>
+          </div>
+
+          <!-- 등산 필수 보급 & 장비 고시인성 터치 카드 5종 -->
           <div class="product-list">
             <!-- 1. 파워젤 -->
-            <a href="https://link.coupang.com/a/iwQwgg2ewS" target="_blank" class="btn-product">
-              <span>⚡ 업힐 봉크 방지 고농축 에너지 파워젤</span>
-              <span>특가 보기 ↗</span>
+            <a href="https://link.coupang.com/a/iwQwgg2ewS" target="_blank" class="btn-product-card">
+              <div class="prod-icon-box">⚡</div>
+              <div class="prod-info">
+                <div class="prod-tag-row">
+                  <span class="prod-tag tag-rocket">로켓배송</span>
+                  <span class="prod-tag tag-best">업힐 필수</span>
+                </div>
+                <div class="prod-title">고농축 에너지 파워젤</div>
+                <div class="prod-sub">장거리 급경사 봉크 방지 · 빠른 에너지 충전</div>
+              </div>
+              <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
             <!-- 2. 라면애밥 -->
-            <a href="https://link.coupang.com/a/iwQIWnpnqu" target="_blank" class="btn-product">
-              <span>🍲 정상에서 불 없이 끓여먹는 핫앤쿡 라면애밥</span>
-              <span>특가 보기 ↗</span>
+            <a href="https://link.coupang.com/a/iwQIWnpnqu" target="_blank" class="btn-product-card">
+              <div class="prod-icon-box">🍲</div>
+              <div class="prod-info">
+                <div class="prod-tag-row">
+                  <span class="prod-tag tag-rocket">로켓배송</span>
+                  <span class="prod-tag tag-best">화기금지 산행</span>
+                </div>
+                <div class="prod-title">핫앤쿡 발열 라면애밥</div>
+                <div class="prod-sub">불·버너 없이 찬물만 부어 먹는 따뜻한 한끼</div>
+              </div>
+              <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
             <!-- 3. 전해질 타블렛 -->
-            <a href="https://link.coupang.com/a/iwQQ3zlhXU" target="_blank" class="btn-product">
-              <span>💧 근육 쥐(경련) 예방 & 수분 충전 발포 전해질</span>
-              <span>특가 보기 ↗</span>
+            <a href="https://link.coupang.com/a/iwQQ3zlhXU" target="_blank" class="btn-product-card">
+              <div class="prod-icon-box">💧</div>
+              <div class="prod-info">
+                <div class="prod-tag-row">
+                  <span class="prod-tag tag-rocket">로켓배송</span>
+                  <span class="prod-tag tag-best">쥐·경련 예방</span>
+                </div>
+                <div class="prod-title">발포 전해질 수분 보충제</div>
+                <div class="prod-sub">물병에 한 알 톡! 근육 경련 및 탈수 예방</div>
+              </div>
+              <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
             <!-- 4. 무릎보호대 -->
-            <a href="https://link.coupang.com/a/iwQVSexTci" target="_blank" class="btn-product">
-              <span>🦵 하산길 무릎 통증 완화 산악용 서포터 보호대</span>
-              <span>특가 보기 ↗</span>
+            <a href="https://link.coupang.com/a/iwQVSexTci" target="_blank" class="btn-product-card">
+              <div class="prod-icon-box">🦵</div>
+              <div class="prod-info">
+                <div class="prod-tag-row">
+                  <span class="prod-tag tag-rocket">로켓배송</span>
+                  <span class="prod-tag tag-best">하산 관절보호</span>
+                </div>
+                <div class="prod-title">산악용 무릎 서포터 보호대</div>
+                <div class="prod-sub">장거리 하산길 무릎 통증 및 연골 충격 완화</div>
+              </div>
+              <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
             <!-- 5. 등산스틱 -->
-            <a href="https://link.coupang.com/a/iwQ0a6iuQK" target="_blank" class="btn-product">
-              <span>🦯 배낭 쏙 보관 초경량 카본 Z폴 접이식 등산스틱</span>
-              <span>특가 보기 ↗</span>
+            <a href="https://link.coupang.com/a/iwQ0a6iuQK" target="_blank" class="btn-product-card">
+              <div class="prod-icon-box">🦯</div>
+              <div class="prod-info">
+                <div class="prod-tag-row">
+                  <span class="prod-tag tag-rocket">로켓배송</span>
+                  <span class="prod-tag tag-best">초경량 Z폴</span>
+                </div>
+                <div class="prod-title">초경량 카본 접이식 등산스틱</div>
+                <div class="prod-sub">배낭에 쏙 들어가는 3단 Z폴 · 무릎 하중 분산</div>
+              </div>
+              <div class="prod-cta-btn">최저가 ›</div>
             </a>
           </div>
-        </div>
 
-        <p class="coupang-notice">
-          이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
-        </p>
+          <p class="coupang-notice">
+            이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -532,7 +744,6 @@
       let finalWay = 0;
 
       if (!hasWaypoint || wayCount === 0) {
-        // 단일 정산 (모두 풀코스)
         baseFull = Math.round((totalExpenseAllCars / totalPassengers) / 1000) * 1000;
         finalFull = baseFull + driverFeeFull;
 
@@ -548,7 +759,6 @@
           • <strong>운전자 수고·세차비:</strong> ${dist}km 표준 규정 적용 ➔ <strong>+${driverFeeFull.toLocaleString()}원</strong>
         `;
       } else {
-        // 경유지 분리 정산 (거리 비례 분담)
         const totalPersonKm = (fullPassengers * dist) + (wayCount * wayDist);
         const costPerKm = totalExpenseAllCars / totalPersonKm;
 
