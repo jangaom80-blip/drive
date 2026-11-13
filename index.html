@@ -28,10 +28,27 @@
     body { background-color: var(--bg-dark); color: var(--text-white); padding: 24px 14px 50px; -webkit-font-smoothing: antialiased; }
     .container { max-width: 480px; margin: 0 auto; }
 
-    header { text-align: center; margin-bottom: 22px; }
+    header { text-align: center; margin-bottom: 14px; }
     .badge-top { display: inline-block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
     h1 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 5px; }
     .sub-title { font-size: 12.5px; color: var(--text-sub); }
+
+    /* 쿠팡 파트너스 필수 대가성 문구 (최상단 고시인성 규격) */
+    .coupang-disclosure-top {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1.5px solid #fbbf24;
+      border-radius: 12px;
+      padding: 11px 12px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .coupang-disclosure-top p {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fde68a;
+      line-height: 1.45;
+      margin: 0;
+    }
 
     .input-card {
       background: var(--card-bg);
@@ -406,14 +423,6 @@
       white-space: nowrap;
       box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
     }
-
-    .coupang-notice {
-      font-size: 10.5px;
-      color: #64748b;
-      text-align: center;
-      line-height: 1.4;
-      margin-top: 14px;
-    }
   </style>
 </head>
 <body>
@@ -423,6 +432,11 @@
       <h1>산악회 장거리 카풀 & 차량비 정산기</h1>
       <p class="sub-title">운전자 집 기준 왕복 거리 · 중간 경유지 픽업 비례 정산 지원</p>
     </header>
+
+    <!-- 쿠팡 파트너스 필수 대가성 문구 (첫 부분 최상단 배치 · 본문보다 큰 고시인성 표기) -->
+    <div class="coupang-disclosure-top">
+      <p>이 포스팅은 쿠팡 파트너스 활동의 일환으로,<br>이에 따른 일정액의 수수료를 제공받습니다.</p>
+    </div>
 
     <div class="input-card">
       <div class="form-group">
@@ -651,10 +665,6 @@
               <div class="prod-cta-btn">최저가 ›</div>
             </a>
           </div>
-
-          <p class="coupang-notice">
-            이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
-          </p>
         </div>
       </div>
     </div>
