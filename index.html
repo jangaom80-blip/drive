@@ -245,7 +245,7 @@
     .btn-kakao-copy:active { opacity: 0.9; transform: scale(0.99); }
 
     /* =========================================
-       고시인성 쿠팡 파트너스 쇼핑 & 특가 섹션
+       쿠팡 파트너스 실시간 검색 + 특가 섹션
        ========================================= */
     .product-section {
       background: linear-gradient(180deg, #162035 0%, #0f1626 100%);
@@ -271,7 +271,156 @@
       padding: 3px 8px;
       border-radius: 12px;
     }
-    .product-section-sub { font-size: 12px; color: #cbd5e1; margin-bottom: 14px; line-height: 1.4; }
+    .product-section-sub { font-size: 12px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.4; }
+
+    /* 실시간 상품 검색 바 */
+    .search-box-wrap {
+      background: #0b111e;
+      border: 1.5px solid #3b82f6;
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 14px;
+    }
+    .search-input-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 0;
+      background: #151e30;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      outline: none;
+    }
+    .search-input:focus { border-color: #60a5fa; }
+    .search-input::placeholder { color: #64748b; font-weight: 500; }
+    .btn-search {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-search:active { transform: scale(0.97); }
+
+    /* 추천 키워드 칩 */
+    .keyword-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .chip-btn {
+      background: #182236;
+      border: 1px solid #2d3c59;
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .chip-btn:active { background: #2563eb; color: #fff; }
+
+    /* 실시간 검색 결과 리스트 */
+    #searchResultArea {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #293652;
+    }
+    .search-status-msg {
+      text-align: center;
+      font-size: 12.5px;
+      color: #93c5fd;
+      padding: 14px 6px;
+      font-weight: 700;
+    }
+    .search-result-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .api-prod-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #172033;
+      border: 1px solid #33466b;
+      border-radius: 10px;
+      padding: 9px;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+    .api-prod-card:active { transform: scale(0.98); background: #1e2a42; }
+    .api-prod-thumb {
+      width: 58px;
+      height: 58px;
+      min-width: 58px;
+      border-radius: 8px;
+      background: #fff;
+      object-fit: contain;
+      padding: 2px;
+    }
+    .api-prod-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .api-prod-badges {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 3px;
+    }
+    .api-badge-rocket {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .api-badge-free {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .api-prod-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #f1f5f9;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.3;
+      margin-bottom: 3px;
+    }
+    .api-prod-price {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #fbbf24;
+    }
+    .api-prod-go {
+      background: #2563eb;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 7px 9px;
+      border-radius: 7px;
+      white-space: nowrap;
+    }
 
     /* 상단 2열 대형 퀵 배너 (골드박스 & 로켓배송) */
     .quick-deal-grid {
@@ -291,7 +440,6 @@
     }
     .quick-deal-card:active { transform: scale(0.97); }
 
-    /* 골드박스 카드 */
     .deal-goldbox {
       background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
       border: 1.5px solid #f59e0b;
@@ -320,7 +468,6 @@
       border-radius: 8px;
     }
 
-    /* 로켓배송 카드 */
     .deal-rocket {
       background: linear-gradient(135deg, #0c2444 0%, #1d4ed8 100%);
       border: 1.5px solid #60a5fa;
@@ -562,17 +709,34 @@
           <span>💬 단톡방 공지 문구 원터치 복사하기</span>
         </button>
 
-        <!-- 고시인성 쿠팡 파트너스 쇼핑 & 특가 섹션 -->
+        <!-- 쿠팡 파트너스 실시간 검색 + 쇼핑 & 특가 섹션 -->
         <div class="product-section">
           <div class="product-section-header">
-            <div class="product-section-title">🛒 이번 산행 준비 & 오늘의 특가</div>
+            <div class="product-section-title">🛒 쿠팡 실시간 최저가 & 산행 준비물</div>
             <span class="rocket-pill-top">🚀 내일 새벽도착</span>
           </div>
-          <p class="product-section-sub">산행 전날 밤 주문해도 내일 바로 도착하는 추천 보급 & 특가 모음</p>
+          <p class="product-section-sub">필요한 장비·간식을 바로 검색하거나 추천 보급품을 확인하세요</p>
 
-          <!-- 상단 2열 대형 퀵 배너 (기존 정상 쿠팡 파트너스 링크 연결 완료) -->
+          <!-- 실시간 쿠팡 상품 검색 박스 -->
+          <div class="search-box-wrap">
+            <div class="search-input-row">
+              <input type="text" id="coupangKeyword" class="search-input" placeholder="쿠팡 상품 검색 (예: 등산양말, 삼다수)" onkeypress="if(event.key==='Enter') searchCoupangProducts()">
+              <button type="button" class="btn-search" onclick="searchCoupangProducts()">🔍 검색</button>
+            </div>
+            <div class="keyword-chips">
+              <button type="button" class="chip-btn" onclick="quickSearch('무릎보호대')">#무릎보호대</button>
+              <button type="button" class="chip-btn" onclick="quickSearch('등산스틱')">#등산스틱</button>
+              <button type="button" class="chip-btn" onclick="quickSearch('파워젤')">#파워젤</button>
+              <button type="button" class="chip-btn" onclick="quickSearch('등산행동식')">#행동식</button>
+              <button type="button" class="chip-btn" onclick="quickSearch('등산양말')">#등산양말</button>
+            </div>
+
+            <!-- 실시간 API 검색 결과 출력 영역 -->
+            <div id="searchResultArea"></div>
+          </div>
+
+          <!-- 상단 2열 대형 퀵 배너 (골드박스 & 로켓배송) -->
           <div class="quick-deal-grid">
-            <!-- 골드박스 특가 링크 -->
             <a href="https://link.coupang.com/a/iwQ0a6iuQK" target="_blank" class="quick-deal-card deal-goldbox">
               <div>
                 <span class="deal-badge">🔥 매일 오전 7시</span>
@@ -582,7 +746,6 @@
               <div class="deal-cta">특가 보러가기 ›</div>
             </a>
 
-            <!-- 로켓배송 바로가기 링크 -->
             <a href="https://link.coupang.com/a/iwQIWnpnqu" target="_blank" class="quick-deal-card deal-rocket">
               <div>
                 <span class="deal-badge">🚀 와우 무료배송</span>
@@ -595,7 +758,6 @@
 
           <!-- 등산 필수 보급 & 장비 고시인성 터치 카드 5종 -->
           <div class="product-list">
-            <!-- 1. 파워젤 -->
             <a href="https://link.coupang.com/a/iwQwgg2ewS" target="_blank" class="btn-product-card">
               <div class="prod-icon-box">⚡</div>
               <div class="prod-info">
@@ -609,7 +771,6 @@
               <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
-            <!-- 2. 라면애밥 -->
             <a href="https://link.coupang.com/a/iwQIWnpnqu" target="_blank" class="btn-product-card">
               <div class="prod-icon-box">🍲</div>
               <div class="prod-info">
@@ -623,7 +784,6 @@
               <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
-            <!-- 3. 전해질 타블렛 -->
             <a href="https://link.coupang.com/a/iwQQ3zlhXU" target="_blank" class="btn-product-card">
               <div class="prod-icon-box">💧</div>
               <div class="prod-info">
@@ -637,7 +797,6 @@
               <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
-            <!-- 4. 무릎보호대 -->
             <a href="https://link.coupang.com/a/iwQVSexTci" target="_blank" class="btn-product-card">
               <div class="prod-icon-box">🦵</div>
               <div class="prod-info">
@@ -651,7 +810,6 @@
               <div class="prod-cta-btn">최저가 ›</div>
             </a>
 
-            <!-- 5. 등산스틱 -->
             <a href="https://link.coupang.com/a/iwQ0a6iuQK" target="_blank" class="btn-product-card">
               <div class="prod-icon-box">🦯</div>
               <div class="prod-info">
@@ -671,7 +829,61 @@
   </div>
 
   <script>
+    const WORKER_URL = "https://coupang-api.aom100.workers.dev";
     let reportData = {};
+
+    function quickSearch(word) {
+      document.getElementById('coupangKeyword').value = word;
+      searchCoupangProducts();
+    }
+
+    async function searchCoupangProducts() {
+      const keyword = document.getElementById('coupangKeyword').value.trim();
+      const resultArea = document.getElementById('searchResultArea');
+
+      if (!keyword) {
+        alert('검색할 상품명을 입력해주세요!');
+        document.getElementById('coupangKeyword').focus();
+        return;
+      }
+
+      resultArea.style.display = 'block';
+      resultArea.innerHTML = `<div class="search-status-msg">🔍 쿠팡에서 '${keyword}' 실시간 최저가를 찾는 중...</div>`;
+
+      try {
+        const res = await fetch(`${WORKER_URL}/?keyword=${encodeURIComponent(keyword)}&limit=6`);
+        const json = await res.json();
+
+        const products = json?.data?.productData || [];
+        if (json.rCode !== "0" || products.length === 0) {
+          resultArea.innerHTML = `<div class="search-status-msg" style="color:#94a3b8;">검색 결과가 없습니다. 다른 키워드로 검색해 보세요.</div>`;
+          return;
+        }
+
+        let html = `<div class="search-result-list">`;
+        products.forEach(item => {
+          const priceStr = Number(item.productPrice || 0).toLocaleString() + '원';
+          const rocketBadge = item.isRocket ? `<span class="api-badge-rocket">🚀 로켓배송</span>` : '';
+          const freeBadge = item.isFreeShipping ? `<span class="api-badge-free">무료배송</span>` : '';
+
+          html += `
+            <a href="${item.productUrl}" target="_blank" class="api-prod-card">
+              <img src="${item.productImage}" alt="" class="api-prod-thumb" onerror="this.style.display='none'">
+              <div class="api-prod-body">
+                <div class="api-prod-badges">${rocketBadge}${freeBadge}</div>
+                <div class="api-prod-name">${item.productName}</div>
+                <div class="api-prod-price">${priceStr}</div>
+              </div>
+              <div class="api-prod-go">최저가 ›</div>
+            </a>
+          `;
+        });
+        html += `</div>`;
+        resultArea.innerHTML = html;
+      } catch (err) {
+        resultArea.innerHTML = `<div class="search-status-msg" style="color:#f87171;">일시적인 통신 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</div>`;
+      }
+    }
 
     function toggleWaypointSwitch() {
       const chk = document.getElementById('waypointCheck');
@@ -692,7 +904,6 @@
       if (type === 'hybrid') document.getElementById('btnHybrid').classList.add('active');
     }
 
-    // 거리별 운전자 수고비/세차비 규정 계산
     function getDriverCompensation(d) {
       if (d < 100) return 5000;
       if (d < 150) return 6000;
@@ -740,7 +951,6 @@
       const fullPassengers = totalPassengers - wayCount;
       if (fullPassengers < 0) return alert('경유지 탑승자 수가 전체 동승자 수보다 많을 수 없습니다.');
 
-      // 1. 차량 1대당 유류비 & 총비용 (1,000원 반올림 규정)
       const rawFuelCost = (dist / fuelEff) * fuelPrice;
       const rawCarTotal = rawFuelCost + toll + parking;
       const carTotalRounded = Math.round(rawCarTotal / 1000) * 1000;
